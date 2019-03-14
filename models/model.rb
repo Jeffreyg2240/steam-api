@@ -74,6 +74,7 @@ end
 def hoursplayed(steam_id)
     twoweek = 0
     hours = 0
+    total_games = Steam::Player.owned_games(steam_id)
     game_list = Steam::Player.owned_games(steam_id)['games']
     # #Goes through every game and adds up all the total minutes played in the account
     Steam::Player.owned_games(steam_id)['games'].find_all{ |minutes_played| hours += minutes_played["playtime_forever"]}
@@ -98,7 +99,7 @@ end
 #Screenshot for example
 # https://steamcommunity.com/id/questionablegoblin
 #  user("IfUReadThisURLIHaveWastingUrTime")
- user("Cinderhelm")
+ user("questionablegoblin")
 #  hoursplayed(76561198123275551)
  
  
