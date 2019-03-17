@@ -13,10 +13,18 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
   
-  post '/results' do
-    @steamV = params[:steam_id]
-    @steam = SteamAPI.new(@steamV)
-    @steam_cred = @steam.
-    erb :results
-  end
+  post '/result' do
+    begin
+        puts @steamID = params[:steam_id]
+        @steam_data = user(@steamID)
+        @steamID = @steam_data[1].to_i
+        @steam_time = hoursplayed(@steamID)
+        @games = steam_games(@steamID)
+        @steam_bans = bans(@steamID)
+        puts @steamID
+      rescue
+        @steamID = "Invalid ID"
+      end
+      erb :result
+    end
 end

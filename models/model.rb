@@ -15,27 +15,19 @@ steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowere
 # # Total Games
 # puts Steam::Player.owned_games(76561198233872272)
 # pp steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowered.com/ISteamApps/GetAppList/v2/")))["applist"]["apps"].values_at(1)
-class SteamAPI
-    attr_reader :steam_id
-    def initialize(steam_id)
-        @steam_id = user(steam_id)
-        
-    end
-    def joint
-        steam_id = @steam_id
-        # #[user name, steam id, steam URL, steam avatar]
-        puts steam_data = user(steam_id)
-        if steam_data != "Invalid ID"
-            steamID= steam_data[1].to_i
-            #[{game = total time played}, {game = total time played}.....]
-            puts gaming_pairs = steam_games(steamID)
-            # [total hours, hours within 2 weeks, Number of games]
-            puts hours = hoursplayed(steamID)
-            #[community ban, VAC ban, game ban, trade ban]
-            gban = bans(steamID)
-        end
-        [steam_id, gaming_pairs, hours, gban]
-    end
+
+
+    # #[user name, steam id, steam URL, steam avatar]
+    # puts steam_data = user(steam_id)
+    # if steam_data != "Invalid ID"
+    #     steamID= steam_data[1].to_i
+    #     #[{game = total time played}, {game = total time played}.....]
+    #     puts gaming_pairs = steam_games(steamID)
+    #     # [total hours, hours within 2 weeks, Number of games]
+    #     puts hours = hoursplayed(steamID)
+    #     #[community ban, VAC ban, game ban, trade ban]
+    #     puts bans(steamID)
+    # end
     #Total number of games the account owns
     def steam_games(steam_id)
         games = []
@@ -142,4 +134,10 @@ class SteamAPI
 
     #Screenshot for example
     # https://steamcommunity.com/id/questionablegoblin
-end
+    #     @steamID = gets.chomp
+    #   puts @steam_data = user(@steamID)
+    #     puts   @steamID = @steam_data[1].to_i
+    #     puts @steam_time = hoursplayed(@steamID)
+    #     puts @games = steam_games(@steamID)
+    #     puts @steam_bans = bans(@steamID)
+    #     # puts @steamID

@@ -15,12 +15,22 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <!-- custom JS -->
     <script src="js/script.js"></script>
+    <style>
+      h2{
+        font-family: "Times New Roman", Times, serif;
+        color: white;
+      }
+      body{
+        background-color: #000000;
+      }
+    </style>
   </head>
   <body>
+    <img src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/2000px-Steam_icon_logo.svg.png' width = 100 height = 100>
+    <img src = <%= @steam_data[3]%> >
     
-    <div class="container-fluid">
-      Hello
-    </div>
+      
+      <h2><%= @steamID %></h2>
     
   </body>
 </html>
