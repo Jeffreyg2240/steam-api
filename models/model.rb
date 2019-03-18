@@ -39,8 +39,8 @@ steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowere
             steam_id = Steam::User.vanity_to_steamid(steam_id)
             steam_name = Steam::User.summary(steam_id)['personaname']
         end
-        steam_url = Steam::User.summary(steam_id)['profileurl']
-        steam_avatar = Steam::User.summary(steam_id)["avatarfull"]
+        steam_url = Steam::User.summary(steam_id.to_i)['profileurl']
+        steam_avatar = Steam::User.summary(steam_id.to_i)["avatarfull"]
         steam = [steam_name, steam_id.to_i, steam_url, steam_avatar]
         steam
     end
@@ -103,7 +103,7 @@ steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowere
     def steam_friend(steam_id)
         friend_array = []
          Steam::User.friends(steam_id).each{ |friendID|
-            friend_array << user(friendID['steamid'].to_i)
+            friend_array << user(friendID['steamid'])#''.to_i' took me 2 hours in the middle of the night to fix
         }
         friend_array
     end
@@ -124,7 +124,7 @@ steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowere
         time
     end
 
-    # friends_detail(user('CinderHelm')[1].to_i)
+    # puts steam_friend(user('CinderHelm')[1].to_i)
 # https://www.rubydoc.info/gems/steam-api/Steam/Player
 #   <% @games.each do |game| %>
 #              <%= game %>

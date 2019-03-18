@@ -87,11 +87,11 @@
         <h2><b>Friends:</b></h2>
           <div class='indent2'>
             <br><div class = "times">
-            <%@friends.each {|friend_detail|%>
-            <a href=<%=friend_detail[2]%>>
-            <img src = <%=friend_detail[3]%> width = '90' height = '90'>
-              <br><font size= '2' ><%= friend_detail[0]%><br>
-              <%=friend_detail[1]%></font>
+            <%@friends.each {|friend_array|%>
+            <a href=<%=friend_array[2]%>>
+            <img src = <%=friend_array[3]%> width = '90' height = '90'>
+              <br><font size= '2' ><%= friend_array[0]%><br>
+              <%=friend_array[1]%></font>
               <hr width="3">
               </a>
             <%}%>
