@@ -4,7 +4,7 @@ require 'net/http'
 require 'json'
 require 'pp'
 require 'dotenv/load'
-Steam.apikey = ENV["STEAM_API_KEY"]
+Steam.apikey = '39E89FF9B42249EF9DCD3483F61FBEA2'
 
 steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowered.com/ISteamApps/GetAppList/v2/")))["applist"]["apps"]
 
