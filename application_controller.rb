@@ -47,7 +47,7 @@ class ApplicationController < Sinatra::Base
         
         #[username, steam id, steam URL, steam avatar]
         begin 
-          @friends = friends_detail(@steamID)
+          @friends = steam_friend(@steamID)
         rescue
           @friends = [["Bob your imaginary friend","0107", "https://www.buzzfeed.com/erinfrye/all-new-friends", "https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/"]]
         end

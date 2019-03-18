@@ -100,7 +100,7 @@ steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowere
         sBans
     end
     
-    def friends_detail(steam_id)
+    def steam_friend(steam_id)
         friend_array = []
          Steam::User.friends(steam_id).each{ |friendID|
             friend_array << user(friendID['steamid'].to_i)
