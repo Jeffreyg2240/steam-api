@@ -16,21 +16,79 @@
     <!-- custom JS -->
     <script src="js/script.js"></script>
     <style>
-      h2{
+      times{
         font-family: "Times New Roman", Times, serif;
         color: white;
       }
       body{
         background-color: #000000;
       }
+      div.indent {
+        padding: 10px 10px;
+      }
+      div.indent2{
+         padding: 5px 20px;
+      }
+      div.avatar {
+        margin: 30px 20px;
+      }
+      a:hover, a:visited, a:link, a:active {
+        text-decoration: none;
+      }
+      a{ #ffffff; }
+      div.bg {
+        background-color: #171A21;
+      }
+      bans{
+        color: #ffffff;
+      }
+
     </style>
   </head>
   <body>
-    <img src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/2000px-Steam_icon_logo.svg.png' width = 100 height = 100>
-    <img src = <%= @steam_data[3]%> >
-    
-      
-      <h2><%= @steamID %></h2>
-    
+    <div class = 'indent'>
+      <a href='javascript:history.back()'><img src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/2000px-Steam_icon_logo.svg.png' width = 100 height = 100></a>
+    </div>
+    <div class = 'bg'>
+      <div class = 'indent'>
+      <div class = 'avatar'>
+        <img src = <%= @steam_data[3]%> width = '125' height = '125'>
+        
+      <div class = "times">
+      <a href="<%=@steam_data[2]%>" class = 'avatar'>
+        <font size= '4' >Username: <%= @steam_data[0]%><br>
+        Steam ID: <%= @steam_data[1]%></font>
+      </a>
+      <br><br>
+      <br>
+        <font color = "white">
+
+          <br><h2><b>Trust Status:</b></h2>
+          <div class='indent2'>
+            Community Ban: <%= @steam_bans[0] %>
+            <br>
+            '<b>VAC</b>' Ban: <%= @steam_bans[1] %>
+            <br>
+            Game Ban: <%= @steam_bans[2] %>
+            <br>
+            Trade Ban: <%= @steam_bans[3] %>
+          <br>
+          </div>
+        <h2><b>Games:</b></h2>
+          <div class='indent2'>
+             <h4>Number of Steam Games: <%= @steam_time[2] %> hours<br>
+             Total Playtime on Steam:  <%= @steam_time[0] %> hours<br>
+             Playtime within the past 2 weeks: <%= @steam_time[1] %> hours</h4>
+            <br>
+            <%@games.each {|gamehr|%>
+            <%=gamehr.keys[0]%>:  <%=gamehr.values[0]%> hours<br>
+            <%}%>
+          </div>
+
+        </font>
+      </div>
+    </div>
+    </div>
+    </div>
   </body>
 </html>
