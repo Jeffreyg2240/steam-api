@@ -14,24 +14,43 @@ class ApplicationController < Sinatra::Base
   end
   
   post '/result' do
-    begin
         @steamID = params[:steam_id]
-        #[user name, steam id, steam URL, steam avatar]
-        @steam_data = user(@steamID)
+        
+        #[username, steam id, steam URL, steam avatar]
+        begin
+          @steam_data = user(@steamID)
+        rescue
+          @steam_data = ["Invalid Name","Invalid ID", "", "https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/"]
+        end
         @steamID = @steam_data[1].to_i
+        
         #[total hours, hours within 2 weeks, Number of games]
-        @steam_time = hoursplayed(@steamID)
+        begin
+          @steam_time = hoursplayed(@steamID)
+        rescue
+          @steam_time = ["Unknown/Private","Unknown/Private","Unknown/Private"]
+        end
+        
         #[{game = total time played}, {game = total time played}.....]
-        @games = steam_games(@steamID)
+        begin
+          @games = steam_games(@steamID)
+        rescue
+          @games = ["Private Profile" => "???"]
+        end
+        
         #[community ban, VAC ban, game ban, trade ban]
-        @steam_bans = bans(@steamID)
-      rescue
-        @steamID = "Invalid ID"
-        @steam_data = ["???","???", "???", "https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/"]
-        @steam_bans = ["N/A","N/A","N/A","N/A"]
-        @steam_time = ["???","???", "???"]
-        @games = ["???" => "???"]
-      end
+        begin
+          @steam_bans = bans(@steamID)
+        rescue
+          @steam_bans =  ["N/A","N/A","N/A","N/A"]
+        end
+        
+        #[username, steam id, steam URL, steam avatar]
+        begin 
+          @friends = friends_detail(@steamID)
+        rescue
+          @friends = [["Bob your imaginary friend","0107", "https://www.buzzfeed.com/erinfrye/all-new-friends", "https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/"]]
+        end
       erb :result
     end
 end

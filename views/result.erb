@@ -52,7 +52,7 @@
     <div class = 'bg'>
       <div class = 'indent'>
       <div class = 'avatar'>
-        <img src = <%= @steam_data[3]%> width = '125' height = '125'>
+        <img src = <%= @steam_data[3]%> width = '150' height = '150'>
         
       <div class = "times">
       <a href="<%=@steam_data[2]%>" class = 'avatar'>
@@ -62,7 +62,6 @@
       <br><br>
       <br>
         <font color = "white">
-
           <br><h2><b>Trust Status:</b></h2>
           <div class='indent2'>
             Community Ban: <%= @steam_bans[0] %>
@@ -80,13 +79,25 @@
              Total Playtime on Steam:  <%= @steam_time[0] %> hours<br>
              Playtime within the past 2 weeks: <%= @steam_time[1] %> hours</h4>
             <br>
-            <%@games.each {|gamehr|%>
-            <%=gamehr.keys[0]%>:  <%=gamehr.values[0]%> hours<br>
+            <%@games.each {|game|%>
+            <%= game.keys[0] %>:  <%= game.values[0] %> hours<br>
             <%}%>
           </div>
-
+        <h2><b>Friends:</b></h2>
+          <div class='indent2'>
+            <br><div class = "times">
+            <%@friends.each {|friend_detail|%>
+            <a href=<%=friend_detail[2]%>>
+            <img src = <%=friend_detail[3]%> width = '90' height = '90'>
+              <br><font size= '2' ><%= friend_detail[0]%><br>
+              <%=friend_detail[1]%></font>
+              <hr width="3">
+              </a>
+            <%}%>
+          </div>
         </font>
       </div>
+    </div>
     </div>
     </div>
     </div>

@@ -2,6 +2,7 @@ require 'steam-api'
 require 'steam_web_api'
 require 'net/http'
 require 'json'
+require 'pp'
 require 'dotenv/load'
 Steam.apikey = ENV["STEAM_API_KEY"]
 
@@ -28,6 +29,21 @@ steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowere
     #     #[community ban, VAC ban, game ban, trade ban]
     #     puts bans(steamID)
     # end
+    def user(steam_id)
+        #If the user input was the id or a customr id
+        #sets steam_name to the username
+        
+        if (steam_id =~ /\A[-+]?[0-9]+\z/)
+            steam_name = Steam::User.summary(steam_id.to_i)['personaname']
+        else
+            steam_id = Steam::User.vanity_to_steamid(steam_id)
+            steam_name = Steam::User.summary(steam_id)['personaname']
+        end
+        steam_url = Steam::User.summary(steam_id)['profileurl']
+        steam_avatar = Steam::User.summary(steam_id)["avatarfull"]
+        steam = [steam_name, steam_id.to_i, steam_url, steam_avatar]
+        steam
+    end
     #Total number of games the account owns
     def steam_games(steam_id)
         games = []
@@ -64,10 +80,10 @@ steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowere
             sBans << "Yes"
         end
         #VAC Ban
-        if Steam::User.bans(steam_id)['players'][0]['VACBanned'] == false
-             sBans << "No"
+        if Steam::User.bans(steam_id)['players'][0]['VACBanned'] == false 
+            sBans << "No"  
         else
-            sBans << "Yes"
+            sBans << "Valve Allow Cheats"
         end
         #Non-Vac Game Ban (aka Game Ban)
         if Steam::User.bans(steam_id)['players'][0]['NumberOfGameBans'] <= 0
@@ -84,50 +100,32 @@ steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowere
         sBans
     end
     
-    def user(steam_id)
-        #If the user input was the id or a customr id
-        #sets steam_name to the username
-        begin
-            if(steam_id.is_a? Integer)
-                steam_name = Steam::User.summary(steam_id)['personaname']
-                steam_id = Steam::User.vanity_to_steamid(steam_name)
-            else
-                steam_id = Steam::User.vanity_to_steamid(steam_id)
-                steam_name = Steam::User.summary(steam_id)['personaname']
-            end
-                steam_url = Steam::User.summary(steam_id)['profileurl']
-                steam_avatar = Steam::User.summary(steam_id)["avatarfull"]
-                steam = [steam_name, steam_id, steam_url, steam_avatar]
-                steam
-        rescue
-            "Invalid ID"
-        end
+    def friends_detail(steam_id)
+        friend_array = []
+         Steam::User.friends(steam_id).each{ |friendID|
+            friend_array << user(friendID['steamid'].to_i)
+        }
+        friend_array
     end
-
+    
     def hoursplayed(steam_id)   
         twoweek = 0
         hours = 0
-        begin
-            total_games = Steam::Player.owned_games(steam_id)["game_count"]
-            # #Goes through every game and adds up all the total minutes played in the account
-            Steam::Player.owned_games(steam_id)['games'].find_all{ |minutes_played| hours += minutes_played["playtime_forever"]}
-            # #Divides minutes to get hours
-            hours /= 60
-            # #Goes through every game and adds up the total number of minutes played within the past 2 weeks
-            Steam::Player.owned_games(steam_id)['games'].find_all{ |minutes_played| twoweek += minutes_played["playtime_2weeks"].to_i}#The "playtime_2weeks" was not a FixNum
-            # #Divides minutes to get hours
-            twoweek /= 60
-        rescue
-            hours = "Private Profile"
-            twoweek = "Private Profile"
-            total_games = "Private Profile"
-        end
+        total_games = Steam::Player.owned_games(steam_id)["game_count"]
+        # #Goes through every game and adds up all the total minutes played in the account
+        Steam::Player.owned_games(steam_id)['games'].find_all{ |minutes_played| hours += minutes_played["playtime_forever"]}
+        # #Divides minutes to get hours
+        hours /= 60
+        # #Goes through every game and adds up the total number of minutes played within the past 2 weeks
+        Steam::Player.owned_games(steam_id)['games'].find_all{ |minutes_played| twoweek += minutes_played["playtime_2weeks"].to_i}#The "playtime_2weeks" was not a FixNum
+        # #Divides minutes to get hours
+        twoweek /= 60
         time = [hours, twoweek, total_games]
         time
     end
 
+    # friends_detail(user('CinderHelm')[1].to_i)
 # https://www.rubydoc.info/gems/steam-api/Steam/Player
-
 #   <% @games.each do |game| %>
 #              <%= game %>
 #           <% end %>
