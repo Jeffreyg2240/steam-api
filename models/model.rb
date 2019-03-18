@@ -36,7 +36,8 @@ steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowere
         end
         steam_url = Steam::User.summary(steam_id.to_i)['profileurl']
         steam_avatar = Steam::User.summary(steam_id.to_i)["avatarfull"]
-        steam = [steam_name, steam_id.to_i, steam_url, steam_avatar]
+        steam_level = Steam::Player.steam_level(steam_id.to_i)
+        steam = [steam_name, steam_id.to_i, steam_url, steam_avatar, steam_level]
         steam
     end
     #Total number of games the account owns

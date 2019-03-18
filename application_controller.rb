@@ -20,7 +20,7 @@ class ApplicationController < Sinatra::Base
         begin
           @steam_data = user(@steamID)
         rescue
-          @steam_data = ["Invalid Name","Invalid ID", "", "https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/"]
+          @steam_data = ["Invalid Name","Invalid ID", "", "https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/","N/A"]
         end
         @steamID = @steam_data[1].to_i
         
