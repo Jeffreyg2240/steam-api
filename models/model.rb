@@ -8,11 +8,6 @@ Steam.apikey = '39E89FF9B42249EF9DCD3483F61FBEA2'
 
 steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowered.com/ISteamApps/GetAppList/v2/")))["applist"]["apps"]
 
-# puts Steam::User.summary(76561198074931455)
-# Steam::User.friends(steam_id).each {|friendID|
-#     puts  Steam::User.summary(friendID['steamid'])['personaname']
-# }
-
 # # Total Games
 # puts Steam::Player.owned_games(76561198233872272)
 # pp steam_games_id_converter = JSON.parse(Net::HTTP.get(URI("https://api.steampowered.com/ISteamApps/GetAppList/v2/")))["applist"]["apps"].values_at(1)
