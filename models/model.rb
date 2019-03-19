@@ -33,9 +33,9 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
         Steam::Player.owned_games(steam_id)['games'].each{ |game_specs|
            game_time << game_specs['playtime_forever'].to_i/60
         }
-        if game_time.length >= 12
-           game_time = game_time[0..12]
-           total_games = total_games[0..12]
+        if game_time.length >= 10
+           game_time = game_time[0..10]
+           total_games = total_games[0..10]
         end
        
                 #Total number of games the account owns
@@ -88,8 +88,8 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
     def steam_friend(steam_id)
         friend_array = []
         raw_Data = Steam::User.friends(steam_id)
-        if raw_Data.length >= 15
-            raw_Data = raw_Data[0..15]
+        if raw_Data.length >= 10
+            raw_Data = raw_Data[0..10]
         end
          raw_Data.each{ |friendID|
             friend_array << user(friendID['steamid'])#''.to_i' took me 2 hours in the middle of the night to fix
