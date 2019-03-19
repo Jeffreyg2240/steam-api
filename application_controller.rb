@@ -14,8 +14,7 @@ class ApplicationController < Sinatra::Base
   end
   
   post '/result' do
-        @steamID = params[:steam_id]
-        
+        @steamID = params[:steam_id].gsub(" ", "")
         #[username, steam id, steam URL, steam avatar]
         begin
           @steam_data = user(@steamID)
@@ -45,7 +44,7 @@ class ApplicationController < Sinatra::Base
           @steam_bans =  ["N/A","N/A","N/A","N/A"]
         end
         
-        #[username, steam id, steam URL, steam avatar]
+        #[username, steam id, steam URL, steam avatar, steam level]
         begin 
           @friends = steam_friend(@steamID)
         rescue
