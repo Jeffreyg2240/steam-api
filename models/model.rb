@@ -29,11 +29,15 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
         games = []
         game_time = []
         pairing = []
-                
-       Steam::Player.owned_games(steam_id)['games'].each{ |game_specs|
+        total_games = Steam::Player.owned_games(steam_id)['games']
+        Steam::Player.owned_games(steam_id)['games'].each{ |game_specs|
            game_time << game_specs['playtime_forever'].to_i/60
         }
-        total_games = Steam::Player.owned_games(steam_id)['games']
+        if game_time.length >= 50
+           game_time = game_time[0..50]
+           total_games = total_games[0..50]
+        end
+       
                 #Total number of games the account owns
                 #Tterates through each hash(game)
                 total_games.each { |x|
@@ -83,7 +87,11 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
     
     def steam_friend(steam_id)
         friend_array = []
-         Steam::User.friends(steam_id).each{ |friendID|
+        raw_Data = Steam::User.friends(steam_id)
+        if raw_Data.length >=42
+            raw_Data = raw_Data[0..42]
+        end
+         raw_Data.each{ |friendID|
             friend_array << user(friendID['steamid'])#''.to_i' took me 2 hours in the middle of the night to fix
         }
         friend_array
@@ -104,7 +112,7 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
         time = [hours, twoweek, total_games]
         time
     end
-
+# puts steam_friend(user('IfUReadThisURLIHaveWastingUrTime')[1].to_i)
     # puts steam_friend(user('IfUReadThisURLIHaveWastingUrTime')[1].to_i)
 # https://www.rubydoc.info/gems/steam-api/Steam/Player
 #   <% @games.each do |game| %>
