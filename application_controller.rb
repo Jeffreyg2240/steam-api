@@ -30,11 +30,11 @@ class ApplicationController < Sinatra::Base
           @steam_time = ["Unknown/Private","Unknown/Private","Unknown/Private"]
         end
         
-        #[{game = total time played}, {game = total time played}.....]
+        #[{total time played time = game}, {total time played time = game}.....]
         begin
           @games = steam_games(@steamID)
         rescue
-          @games = ["Private Profile" => "???"]
+          @games = ["???" => "Private Profile"]
         end
         
         #[community ban, VAC ban, game ban, trade ban]

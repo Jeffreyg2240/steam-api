@@ -20,12 +20,13 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
             steam_level = Steam::Player.steam_level(steam_id.to_i)
             steam = [steam_name, steam_id.to_i, steam_url, steam_avatar, steam_level]
         rescue 
-             steam = ["Invalid Name","Invalid ID", "", "https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/","N/A"]
+             steam = ["Invalid Name","Invalid ID", "", "https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/","0"]
         end
         steam
     end
     #Total number of games the account owns
     def steam_games(steam_id)
+        game = JSON.parse(Net::HTTP.get(URI("https://api.steampowered.com/ISteamApps/GetAppList/v2/")))["applist"]["apps"]
         games = []
         game_time = []
         pairing = []
@@ -33,18 +34,17 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
         Steam::Player.owned_games(steam_id)['games'].each{ |game_specs|
            game_time << game_specs['playtime_forever'].to_i/60
         }
-        if game_time.length >= 12
-           game_time = game_time[0..12]
-           total_games = total_games[0..12]
-        end
+        # if game_time.length >= 50
+        #   game_time = game_time[0..50]
+        #   total_games = total_games[0..50]
+        # end
        
                 #Total number of games the account owns
                 #Tterates through each hash(game)
                 total_games.each { |x|
                     #2nd API which is used to turn the game ID into itle
                     #'game' is a array of hashes of all of steam's games
-                    game = JSON.parse(Net::HTTP.get(URI("https://api.steampowered.com/ISteamApps/GetAppList/v2/")))["applist"]["apps"].select { 
-                        |app_id| 
+                    game.each { |app_id| 
                         if app_id['appid'] == x['appid']
                             games << app_id['name']
                             break
@@ -52,9 +52,9 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
                     }
                 }
                 for i in 0...games.length do
-                    pairing << {games[i] => game_time[i]} 
+                    pairing << {game_time[i] => games[i]} 
                 end
-        pairing
+        pairing.each.sort_by { |hash| hash.keys }.reverse
     end
     def bans(steam_id)
         sBans = []
@@ -88,12 +88,16 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
     def steam_friend(steam_id)
         friend_array = []
         raw_Data = Steam::User.friends(steam_id)
-        if raw_Data.length >= 15
-            raw_Data = raw_Data[0..15]
+        if raw_Data.length >= 20
+            raw_Data = raw_Data[0..20]
         end
          raw_Data.each{ |friendID|
             friend_array << user(friendID['steamid'])#''.to_i' took me 2 hours in the middle of the night to fix
         }
+
+        # friend_array.each.sort_by{ |hello| 
+        #     hello[4]
+        # }.reverse
         friend_array
     end
     
@@ -112,8 +116,8 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
         time = [hours, twoweek, total_games]
         time
     end
-# puts steam_friend(user('IfUReadThisURLIHaveWastingUrTime')[1].to_i)
-    # puts steam_friend(user('IfUReadThisURLIHaveWastingUrTime')[1].to_i)
+# puts  steam_friend(user('questionablegoblin')[1].to_i)
+    # puts steam_friend(user('76561198287302494')[1].to_i)
 # https://www.rubydoc.info/gems/steam-api/Steam/Player
 #   <% @games.each do |game| %>
 #              <%= game %>
