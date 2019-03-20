@@ -88,8 +88,8 @@ Steam.apikey = '3AB7758DA2A0F8B637FFB2BCF49D10AE'
     def steam_friend(steam_id)
         friend_array = []
         raw_Data = Steam::User.friends(steam_id)
-        if raw_Data.length >= 30
-            raw_Data = raw_Data[0..30]
+        if raw_Data.length >= 20
+            raw_Data = raw_Data[0..20]
         end
          raw_Data.each{ |friendID|
             friend_array << user(friendID['steamid'])#''.to_i' took me 2 hours in the middle of the night to fix
