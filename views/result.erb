@@ -83,7 +83,44 @@
              Playtime within the past 2 weeks: <%= @steam_time[1] %> hours</h4>
             <br>
             <%@games.each {|game|%>
-            <%= game.values[0] %>:  <%= game.keys[0] %> hours<br>
+                          <%if game.keys[0].to_i>=2000%>
+                <font color = "#f92109">
+                <%= game.values[0] %></font>  :  <%= game.keys[0] %> hours<br>
+
+                <%elsif game.keys[0].to_i>=1000%>
+                 <font color = "#ffc300">
+                <%= game.values[0] %></font>:  <%= game.keys[0] %> hours<br>
+                <%elsif game.keys[0].to_i>=600%>
+                 <font color = "#ffcc26">
+                <%= game.values[0] %></font>  :  <%= game.keys[0] %> hours<br>
+                <%elsif game.keys[0].to_i>=500%>
+                 <font color = "#fcd146">
+                <%= game.values[0] %></font> :  <%= game.keys[0] %> hours<br>
+                <%elsif game.keys[0].to_i>=400%>
+                 <font color = "#ffdb66">
+                <%= game.values[0] %></font> :  <%= game.keys[0] %> hours<br>
+                <%elsif game.keys[0].to_i>=300%>
+                 <font color = "#ffe287">
+                <%= game.values[0] %></font> :  <%= game.keys[0] %> hours<br>
+                <%elsif game.keys[0].to_i>=200%>
+                 <font color = "#fffbba">
+                <%= game.values[0] %></font> :  <%= game.keys[0] %> hours<br>
+                <%elsif game.keys[0].to_i>=100%>
+                 <font color = "#4cbdff">
+                <%= game.values[0] %></font> :  <%= game.keys[0] %> hours<br>
+                <%elsif game.keys[0].to_i>=80%>
+                 <font color = "#6ac3f7">
+                <%= game.values[0] %></font> :  <%= game.keys[0] %> hours<br>
+                <%elsif game.keys[0].to_i>=60%>
+                 <font color = "#a5deff">
+                <%= game.values[0] %></font> :  <%= game.keys[0] %> hours<br>
+                <%elsif game.keys[0].to_i>=40%>
+                 <font color = "#c2e7fc">
+                <%= game.values[0] %></font> :  <%= game.keys[0] %> hours<br>
+                <%else%>
+                <%= game.values[0] %>:  <%= game.keys[0] %> hours<br>
+              <%end%>
+
             <%}%>
           </div>
         <h2><b>Friends:</b></h2>
